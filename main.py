@@ -2,7 +2,6 @@ import os
 import asyncio
 import logging
 import httpx
-import ssl
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
@@ -12,7 +11,6 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 from supabase import create_client, Client
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
@@ -28,8 +26,7 @@ bot = Bot(token=BOT_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
-# === НАСТРОЙКА SUPABASE (ОБХОД БЛОКИРОВКИ) ===
-# Создаем клиент с увеличенным таймаутом
+# === НАСТРОЙКА SUPABASE ===
 http_client = httpx.Client(
     verify=False,
     timeout=120.0,
@@ -262,10 +259,6 @@ async def process_login_password(message: types.Message, state: FSMContext):
         else:
             await message.answer("❌ Неверный пароль.", reply_markup=get_login_keyboard())
             await state.clear()
-    except httpx.HTTPError as e:
-        logger.error(f"Ошибка соединения с Supabase: {e}")
-        await message.answer("❌ Ошибка соединения с сервером. Проверьте VPN.", reply_markup=get_login_keyboard())
-        await state.clear()
     except Exception as e:
         logger.error(f"Ошибка входа: {e}")
         await message.answer("❌ Ошибка входа. Попробуйте позже.", reply_markup=get_login_keyboard())
