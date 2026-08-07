@@ -1,7 +1,6 @@
 import os
 import asyncio
 import logging
-import httpx
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
@@ -9,7 +8,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
-from supabase import create_client, Client
+from supabase import create_client
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 load_dotenv()
@@ -20,23 +19,14 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_IDS = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
 
 bot = Bot(token=BOT_TOKEN)
-
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
-# === НАСТРОЙКА SUPABASE ===
-http_client = httpx.Client(
-    verify=False,
-    timeout=120.0,
-    limits=httpx.Limits(max_keepalive_connections=5)
-)
+# === ПРОСТАЯ НАСТРОЙКА SUPABASE ===
+SUPABASE_URL = "https://alafwqeezmzmanowrjpvm.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsYWZ3cWVlbXptYW5vd3JqcHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxMTAzNzgsImV4cCI6MjEwMTY4NjM3OH0.K2Io-RgC9AxFuQC8jb7wIecmqfbpynNyiDDhdHV_xDg"
 
-supabase = create_client(
-    "http://alafwqeezmzmanowrjpvm.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsYWZ3cWVlbXptYW5vd3JqcHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxMTAzNzgsImV4cCI6MjEwMTY4NjM3OH0.K2Io-RgC9AxFuQC8jb7wIecmqfbpynNyiDDhdHV_xDg"
-)
-supabase._http_client = http_client
-supabase.postgrest.session = http_client
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 scheduler = AsyncIOScheduler()
 
