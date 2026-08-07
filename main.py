@@ -23,9 +23,7 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 ADMIN_IDS = [int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip()]
 
-proxy_url = "socks5://127.0.0.1:12334"
-session = AiohttpSession(proxy=proxy_url)
-bot = Bot(token=BOT_TOKEN, session=session)
+bot = Bot(token=BOT_TOKEN)
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
