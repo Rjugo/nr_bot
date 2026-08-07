@@ -32,7 +32,7 @@ http_client = httpx.Client(
 )
 
 supabase = create_client(
-    "https://alafwqeezmzmanowrjpvm.supabase.co",
+    "http://alafwqeezmzmanowrjpvm.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsYWZ3cWVlbXptYW5vd3JqcHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxMTAzNzgsImV4cCI6MjEwMTY4NjM3OH0.K2Io-RgC9AxFuQC8jb7wIecmqfbpynNyiDDhdHV_xDg"
 )
 supabase._http_client = http_client
