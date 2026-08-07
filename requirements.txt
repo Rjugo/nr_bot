@@ -3,3 +3,4 @@ supabase==2.8.1
 python-dotenv==1.0.1
 apscheduler==3.10.4
 numpy==1.26.4
+pydantic-core==2.23.4
