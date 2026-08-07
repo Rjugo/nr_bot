@@ -31,7 +31,7 @@ http_client = httpx.Client(
     limits=httpx.Limits(max_keepalive_connections=5)
 )
 
-supabase: Client = create_client(
+supabase = create_client(
     "https://alafwqeezmzmanowrjpvm.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsYWZ3cWVlbXptYW5vd3JqcHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxMTAzNzgsImV4cCI6MjEwMTY4NjM3OH0.K2Io-RgC9AxFuQC8jb7wIecmqfbpynNyiDDhdHV_xDg"
 )
